@@ -20,7 +20,10 @@
     "react/no-unescaped-entities": [
       "error",
       {
-        "forbid": [{ "char": ">", "alternatives": ["&gt;"] }, { "char": "}", "alternatives": ["&#125;"] }]
+        "forbid": [
+          { "char": ">", "alternatives": ["&gt;"] },
+          { "char": "}", "alternatives": ["&#125;"] }
+        ]
       }
     ]
   }
