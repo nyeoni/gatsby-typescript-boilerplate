@@ -5,13 +5,8 @@ const path = require('path')
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  // Sometimes, optional fields tend to get not picked up by the GraphQL
-  // interpreter if not a single content uses it. Therefore, we're putting them
-  // through `createNodeField` so that the fields still exist and GraphQL won't
-  // trip up. An empty string is still required in replacement to `null`.
-
   switch (node.internal.type) {
-    case 'MarkdownRemark': {
+    case 'Mdx': {
       const { permalink, layout } = node.frontmatter
       const { relativePath } = getNode(node.parent)
 
@@ -43,43 +38,55 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const allMarkdown = await graphql(`
     {
-      allMarkdownRemark(limit: 1000) {
+      allMdx(limit: 1000) {
         edges {
           node {
             fields {
               layout
               slug
             }
+            frontmatter {
+              title
+            }
+            id
+            body
           }
         }
       }
     }
-  `)
+  `);
 
   if (allMarkdown.errors) {
     console.error(allMarkdown.errors)
     throw new Error(allMarkdown.errors)
   }
 
-  allMarkdown.data.allMarkdownRemark.edges.forEach(({ node }) => {
-    const { slug, layout } = node.fields
+  allMarkdown.data.allMdx.edges.forEach(({ node }) => {
+    const { slug, layout } = node.fields;
 
     createPage({
       path: slug,
-      // This will automatically resolve the template to a corresponding
-      // `layout` frontmatter in the Markdown.
-      //
-      // Feel free to set any `layout` as you'd like in the frontmatter, as
-      // long as the corresponding template file exists in src/templates.
-      // If no template is set, it will fall back to the default `page`
-      // template.
-      //
-      // Note that the template has to exist first, or else the build will fail.
       component: path.resolve(`./src/templates/${layout || 'page'}.tsx`),
       context: {
-        // Data passed to context is available in page queries as GraphQL variables.
         slug
       }
-    })
-  })
+    });
+  });
 }
+
+exports.onCreateWebpackConfig = ({ getConfig, actions }) => {
+  const output = getConfig().output || {};
+
+  actions.setWebpackConfig({
+    output,
+    resolve: {
+      alias: {
+        assets: path.resolve(__dirname, 'src/assets'),
+        components: path.resolve(__dirname, 'src/components'),
+        styles: path.resolve(__dirname, 'src/styles'),
+        layouts: path.resolve(__dirname, 'src/layouts'),
+        templates: path.resolve(__dirname, 'src/templates')
+      }
+    }
+  });
+};

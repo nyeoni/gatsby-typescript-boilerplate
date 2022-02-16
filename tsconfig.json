@@ -4,6 +4,15 @@
     "target": "esnext",
     "jsx": "preserve",
     "lib": ["dom", "es2015", "es2017"],
+    "baseUrl": "./src",
+    "paths": {
+      "assets/*": ["./assets/*"],
+      "components/*": ["./components/*"],
+      "styles/*": ["./styles/*"],
+      "layouts/*": ["./layouts/*"],
+      "templates/*": ["./templates/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
     "strict": true,
     "noEmit": true,
     "isolatedModules": true,
