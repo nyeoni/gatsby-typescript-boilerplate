@@ -5,7 +5,7 @@
 <center>
   
   [![Netlify Status](https://api.netlify.com/api/v1/badges/040a6647-37e1-401b-b995-5f77a05255d1/deploy-status)](https://app.netlify.com/sites/gatsby-ts-boilerplate/deploys)
-  [![Gatsby](https://img.shields.io/badge/Gatsby-663399?style=for-the-badge&logo=gatsby&logoColor=white)](https://img.shields.io/badge/Gatsby-663399?style=for-the-badge&logo=gatsby&logoColor=white)
+  [![Gatsby](https://img.shields.io/badge/boilerplate-gatsby-blueviolet)](https://img.shields.io/badge/boilerplate-gatsby-blueviolet)
   
 </center>
 
